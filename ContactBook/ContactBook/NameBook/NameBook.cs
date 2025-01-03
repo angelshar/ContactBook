@@ -10,5 +10,13 @@
         //A way to list all the contacts
         //Make a crazy intellisense like your phone does to automatically know which contacts you possibly refer to
 
+        //Use dictionary; the phone number will be the key and the value will be a list containing
+        //the elements we want the contact to have
+        //the phone number will also be listed as a string
+        //default elements to null if not in use?
+        public NameBook()
+        {
+            Dictionary<double, List<string>> _NameBook = new Dictionary<double, List<string>>();
+        }
     }
 }

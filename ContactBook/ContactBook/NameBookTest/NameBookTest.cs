@@ -1,4 +1,5 @@
-﻿namespace NameBookTest
+﻿
+namespace NameBookTest
 {
     [TestClass]
     public sealed class NameBookTest
@@ -7,12 +8,25 @@
         public void AccessNameBookList()
         {
             //Arrange
-            //Hard Coded Values
+            string key = "7801235624";
+            Dictionary<double, List<string>> NameBook = new Dictionary<double, List<string>>();
+            NameBook.Add(7801235624, new List<string> { "Angelina Harvey", "angelshpat@gmail.com", key });
             //Act
-            //Using the method to implement test
+            double keyToCheck = 7801235624;
+            List<string> expectedValue = new List<string> { "Angelina Harvey", "angelshpat@gmail.com", key };
+            bool valueMatches = NameBook.ContainsKey(keyToCheck) && AreListEqual(NameBook[keyToCheck], expectedValue);
             //Assert
-            //Assert true or whatever for actual vs expected
+            Assert.IsTrue(valueMatches);
+            
         }
+
+        private bool AreListEqual(List<string> list1, List<string> list2)
+        {
+            if(list1.Count != list2.Count) { return false; }
+            for (int i = 0; i < list1.Count; i++) { if (list1[i] != list2[i]) { return false; } }
+            return true;
+        }
+
         [TestMethod]
         public void VerifyInitialListIsEmpty()
         {
