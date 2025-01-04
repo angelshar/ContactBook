@@ -1,71 +1,72 @@
 ﻿
+using System;
+using System.Security.AccessControl;
+using NameBook;
+using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 namespace NameBookTest
 {
     [TestClass]
     public sealed class NameBookTest
     {
         [TestMethod]
-        public void AccessNameBookList()
+        public void AccessInitializedEmptyIndividualContact()
         {
-            //Arrange
-            string key = "7801235624";
-            Dictionary<double, List<string>> NameBook = new Dictionary<double, List<string>>();
-            NameBook.Add(7801235624, new List<string> { "Angelina Harvey", "angelshpat@gmail.com", key });
-            //Act
-            double keyToCheck = 7801235624;
-            List<string> expectedValue = new List<string> { "Angelina Harvey", "angelshpat@gmail.com", key };
-            bool valueMatches = NameBook.ContainsKey(keyToCheck) && AreListEqual(NameBook[keyToCheck], expectedValue);
-            //Assert
-            Assert.IsTrue(valueMatches);
-            
-        }
+            Dictionary<Phone, FullContactInfo> individualContact = new Dictionary<Phone, FullContactInfo>();
 
-        private bool AreListEqual(List<string> list1, List<string> list2)
-        {
-            if(list1.Count != list2.Count) { return false; }
-            for (int i = 0; i < list1.Count; i++) { if (list1[i] != list2[i]) { return false; } }
-            return true;
-        }
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(individualContact);
+            Xunit.Assert.Empty(individualContact);
 
-        [TestMethod]
-        public void VerifyInitialListIsEmpty()
-        {
         }
         [TestMethod]
-        public void AddContactName()
+        public void AddIndividualContactData()
         {
+            Dictionary<Phone, FullContactInfo> individualContact = new Dictionary<Phone, FullContactInfo>();
+            var phone = new Phone
+            {
+                PhoneNumber = 1234567890
+            };
+            var contact = new FullContactInfo
+            {
+                FullName = "John Doe",
+                Email = "john.doe@example.com",
+                PhoneNumber = phone.GetFormattedPhoneNumber()
+            };
+
+            individualContact.Add(phone, contact);
+
+            Xunit.Assert.Single(individualContact); // Check that the dictionary contains exactly one item
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(individualContact.ContainsKey(phone)); // Check that the key exists
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("John Doe", individualContact[phone].FullName); // Validate the contact's Name
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("john.doe@example.com", individualContact[phone].Email); // Validate the contact's Email
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("123-456-7890", phone.GetFormattedPhoneNumber()); // Validate the contact's PhoneNumber
         }
         [TestMethod]
-        public void VerifyCorrectContactNameType()
+        public void VerifyIfEmailIsAValidEmail()
         {
-        }
-        [TestMethod]
-        public void AddContactPhoneNumber()
-        {
-        }
-        [TestMethod]
-        public void VerifyCorrectContactPhoneNumberType()
-        {
-        }
-        [TestMethod]
-        public void VerifyCorrectPhoneNumberToName()
-        {
-        }
-        [TestMethod]
-        public void AddContactEmail()
-        {
-        }
-        [TestMethod]
-        public void VerifyCorrectContactEmailType()
-        {
-        }
-        [TestMethod]
-        public void VerifyCorrectEmailToName()
-        {
+            Dictionary<Phone, FullContactInfo> individualContact = new Dictionary<Phone, FullContactInfo>();
+            var phone = new Phone
+            {
+                PhoneNumber = 1234567890
+            };
+            var contact = new FullContactInfo
+            {
+                FullName = "John Doe",
+                Email = "john.doe@example.com",
+                PhoneNumber = phone.GetFormattedPhoneNumber()
+            };
+
+            individualContact.Add(phone, contact);
+
+            var emailvalidator = new EmailValidator { };
+            emailvalidator.IsValidEmail(individualContact[phone].Email);
+
         }
         [TestMethod]
         public void ChangeContactName()
         {
+
         }
         [TestMethod]
         public void ChangeContactPhoneNumber()
