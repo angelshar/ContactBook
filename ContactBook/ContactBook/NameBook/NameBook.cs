@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace NameBook
 {
@@ -47,6 +48,26 @@ namespace NameBook
         }
     }
 
+    public class SearchByMethods
+    {
+       
+        public static string GetKeyFromValue(string valueVar)
+        {
+            foreach (string keyVar in Dictionary<Phone, FullContactInfo>)
+            {
+                if (Dictionary[keyVar] == valueVar)
+
+
+
+
+
+                {
+                    return keyVar;
+                }
+            }
+            return null;
+        }
+    }
 
 }
 //copilot code to help us
