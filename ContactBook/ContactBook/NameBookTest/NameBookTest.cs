@@ -1,11 +1,5 @@
-﻿
-using System;
-using System.Security.AccessControl;
-using NameBook;
-using Xunit;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Security.Cryptography.X509Certificates;
-using System.Numerics;
+﻿using NameBook;
+using System.Reflection.PortableExecutable;
 
 namespace NameBookTest
 {
@@ -44,6 +38,70 @@ namespace NameBookTest
             Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("john.doe@example.com", individualContact[phone].Email); // Validate the contact's Email
             Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("123-456-7890", phone.GetFormattedPhoneNumber()); // Validate the contact's PhoneNumber
         }
+
+        [TestMethod]
+        public void AddMultipleContacts()
+        {
+            Dictionary<Phone, FullContactInfo> multiContact = new Dictionary<Phone, FullContactInfo>();
+            var phoneJohn = new Phone
+            {
+                PhoneNumber = 1234567890
+            };
+            var contactJohnInfo = new FullContactInfo
+            {
+                FullName = "John Doe",
+                Email = "john.doe@example.com",
+                PhoneNumber = phoneJohn.GetFormattedPhoneNumber()
+            };
+
+            var phoneIsaac = new Phone
+            {
+                PhoneNumber = 0987654321
+            };
+            var contactIsaacInfo = new FullContactInfo
+            {
+                FullName = "Isaac Perez",
+                Email = "isaac.perez@example.com",
+                PhoneNumber = phoneJohn.GetFormattedPhoneNumber()
+            };
+
+            var phoneHarvey = new Phone
+            {
+                PhoneNumber = 1231231234
+            };
+            var contactHarveyInfo = new FullContactInfo
+            {
+                FullName = "Ash Harvey",
+                Email = "ash.harvey@example.com",
+                PhoneNumber = phoneJohn.GetFormattedPhoneNumber()
+            };
+
+            multiContact.Add(phoneJohn, contactJohnInfo);
+            multiContact.Add(phoneIsaac, contactIsaacInfo);
+            multiContact.Add(phoneHarvey, contactHarveyInfo);
+
+
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(multiContact.ContainsKey(phoneJohn)); // Check that the key exists
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("John Doe", multiContact[phoneJohn].FullName); // Validate the contact's Name
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("john.doe@example.com", multiContact[phoneJohn].Email); // Validate the contact's Email
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("123-456-7890", phoneJohn.GetFormattedPhoneNumber()); // Validate the contact's PhoneNumber
+
+
+
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(multiContact.ContainsKey(phoneIsaac)); // Check that the key exists
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("Isaac Perez", multiContact[phoneIsaac].FullName); // Validate the contact's Name
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("isaac.perez@example.com", multiContact[phoneIsaac].Email); // Validate the contact's Email
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("098-765-4321", phoneIsaac.GetFormattedPhoneNumber()); // Validate the contact's PhoneNumber
+
+
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(multiContact.ContainsKey(phoneHarvey)); // Check that the key exists
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("Ash Harvey", multiContact[phoneHarvey].FullName); // Validate the contact's Name
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("ash.harvey@example.com", multiContact[phoneHarvey].Email); // Validate the contact's Email
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("123-123-1234", phoneHarvey.GetFormattedPhoneNumber()); // Validate the contact's PhoneNumber
+
+
+        }
+
         [TestMethod]
         public void VerifyIfEmailIsAValidEmail()
         {
@@ -202,11 +260,9 @@ namespace NameBookTest
         [TestMethod]
         public void SearchByContactName()
         {
+            // Arrange
             Dictionary<Phone, FullContactInfo> multiContact = new Dictionary<Phone, FullContactInfo>();
-            var phoneJohn = new Phone
-            {
-                PhoneNumber = 1234567890
-            };
+            var phoneJohn = new Phone { PhoneNumber = 1234567890 };
             var contactJohnInfo = new FullContactInfo
             {
                 FullName = "John Doe",
@@ -214,114 +270,91 @@ namespace NameBookTest
                 PhoneNumber = phoneJohn.GetFormattedPhoneNumber()
             };
 
-            var phoneIsaac = new Phone
-            {
-                PhoneNumber = 0987654321
-            };
+            var phoneIsaac = new Phone { PhoneNumber = 987654321 };
             var contactIsaacInfo = new FullContactInfo
             {
                 FullName = "Isaac Perez",
                 Email = "isaac.perez@example.com",
-                PhoneNumber = phoneJohn.GetFormattedPhoneNumber()
-            };
-
-            var phoneHarvey = new Phone
-            {
-                PhoneNumber = 1231231234
-            };
-            var contactHarveyInfo = new FullContactInfo
-            {
-                FullName = "Ash Harvey",
-                Email = "ash.harvey@example.com",
-                PhoneNumber = phoneJohn.GetFormattedPhoneNumber()
+                PhoneNumber = phoneIsaac.GetFormattedPhoneNumber()
             };
 
             multiContact.Add(phoneJohn, contactJohnInfo);
             multiContact.Add(phoneIsaac, contactIsaacInfo);
-            multiContact.Add(phoneHarvey, contactHarveyInfo);
 
+            // Act
+            var searchedContact1 = SearchByMethods.SearchByContactName("John", multiContact);
 
+            // Assert
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(1, searchedContact1.Count);
+            var firstMatch = searchedContact1[0];
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(phoneJohn, firstMatch.Key);
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("John Doe", firstMatch.Value.FullName);
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("john.doe@example.com", firstMatch.Value.Email);
+
+            var searchedContact2 = SearchByMethods.SearchByContactName("Isaac", multiContact);
+
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(1, searchedContact2.Count);
+            var secondMatch = searchedContact2[0];
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(phoneIsaac, secondMatch.Key);
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("Isaac Perez", secondMatch.Value.FullName);
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("isaac.perez@example.com", secondMatch.Value.Email);
         }
 
         [TestMethod]
-        public void AddMultipleContacts()
+        public void SearchByContactNameToFindSimilarContacts()
         {
+            // Arrange
             Dictionary<Phone, FullContactInfo> multiContact = new Dictionary<Phone, FullContactInfo>();
-            var phoneJohn = new Phone
-            {
-                PhoneNumber = 1234567890
-            };
-            var contactJohnInfo = new FullContactInfo
+            var phoneJohnDoe = new Phone { PhoneNumber = 1234567890 };
+            var contactJohnDoeInfo = new FullContactInfo
             {
                 FullName = "John Doe",
                 Email = "john.doe@example.com",
-                PhoneNumber = phoneJohn.GetFormattedPhoneNumber()
+                PhoneNumber = phoneJohnDoe.GetFormattedPhoneNumber()
             };
 
-            var phoneIsaac = new Phone
+            var phoneJohnPerez = new Phone { PhoneNumber = 987654321 };
+            var contactJohnPerezInfo = new FullContactInfo
             {
-                PhoneNumber = 0987654321
+                FullName = "John Perez",
+                Email = "john.perez@example.com",
+                PhoneNumber = phoneJohnPerez.GetFormattedPhoneNumber()
             };
-            var contactIsaacInfo = new FullContactInfo
+
+            var phoneJaneDoe = new Phone { PhoneNumber = 1231231234 };
+            var contactJaneDoeInfo = new FullContactInfo
             {
-                FullName = "Isaac Perez",
-                Email = "isaac.perez@example.com",
-                PhoneNumber = phoneJohn.GetFormattedPhoneNumber()
+                FullName = "Jane Doe",
+                Email = "jane.doe@example.com",
+                PhoneNumber = phoneJaneDoe.GetFormattedPhoneNumber()
             };
 
-            var phoneHarvey = new Phone
+            multiContact.Add(phoneJohnDoe, contactJohnDoeInfo);
+            multiContact.Add(phoneJohnPerez, contactJohnPerezInfo);
+            multiContact.Add(phoneJaneDoe, contactJaneDoeInfo);
+
+            // Act
+            var searchedContacts = SearchByMethods.SearchByContactName("John", multiContact);
+
+            // Assert
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(2, searchedContacts.Count); // Expecting 2 matches
+
+            // Verify that all returned contacts are correct
+            var expectedContacts = new List<KeyValuePair<Phone, FullContactInfo>>
+    {
+        new KeyValuePair<Phone, FullContactInfo>(phoneJohnDoe, contactJohnDoeInfo),
+        new KeyValuePair<Phone, FullContactInfo>(phoneJohnPerez, contactJohnPerezInfo)
+    };
+
+            foreach (var expected in expectedContacts)
             {
-                PhoneNumber = 1231231234
-            };
-            var contactHarveyInfo = new FullContactInfo
-            {
-                FullName = "Ash Harvey",
-                Email = "ash.harvey@example.com",
-                PhoneNumber = phoneJohn.GetFormattedPhoneNumber()
-            };
-
-            multiContact.Add(phoneJohn, contactJohnInfo);
-            multiContact.Add(phoneIsaac, contactIsaacInfo);
-            multiContact.Add(phoneHarvey, contactHarveyInfo);
-
-
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(multiContact.ContainsKey(phoneJohn)); // Check that the key exists
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("John Doe", multiContact[phoneJohn].FullName); // Validate the contact's Name
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("john.doe@example.com", multiContact[phoneJohn].Email); // Validate the contact's Email
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("123-456-7890", phoneJohn.GetFormattedPhoneNumber()); // Validate the contact's PhoneNumber
-
-
-
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(multiContact.ContainsKey(phoneIsaac)); // Check that the key exists
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("Isaac Perez", multiContact[phoneIsaac].FullName); // Validate the contact's Name
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("isaac.perez@example.com", multiContact[phoneIsaac].Email); // Validate the contact's Email
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("098-765-4321", phoneIsaac.GetFormattedPhoneNumber()); // Validate the contact's PhoneNumber
-
-
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(multiContact.ContainsKey(phoneHarvey)); // Check that the key exists
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("Ash Harvey", multiContact[phoneHarvey].FullName); // Validate the contact's Name
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("ash.harvey@example.com", multiContact[phoneHarvey].Email); // Validate the contact's Email
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("123-123-1234", phoneHarvey.GetFormattedPhoneNumber()); // Validate the contact's PhoneNumber
-
-
+                Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(
+                    searchedContacts.Contains(expected),
+                    $"Expected contact with name {expected.Value.FullName} and email {expected.Value.Email} was not found."
+                );
+            }
         }
-        [TestMethod]
-        public void SearchIfContactNameExists()
-        {
-            Dictionary<Phone, FullContactInfo> individualContact = new Dictionary<Phone, FullContactInfo>();
-            var phone = new Phone
-            {
-                PhoneNumber = 1234567890
-            };
-            var contact = new FullContactInfo
-            {
-                FullName = "John Doe",
-                Email = "john.doe@example.com",
-                PhoneNumber = phone.GetFormattedPhoneNumber()
-            };
 
-            individualContact.Add(phone, contact);
-        }
         [TestMethod]
         public void SearchByPhoneNumber()
         {
@@ -338,56 +371,142 @@ namespace NameBookTest
             };
 
             individualContact.Add(phone, contact);
+
+            // Act: Retrieve the contact information using the key
+            var retrievedContact = individualContact[phone];
+
+            // Assert: Validate that the retrieved contact matches the expected values
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(retrievedContact);
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("John Doe", retrievedContact.FullName);
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("john.doe@example.com", retrievedContact.Email);
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(phone.GetFormattedPhoneNumber(), retrievedContact.PhoneNumber);
         }
+
         [TestMethod]
         public void SearchByEmail()
         {
-            Dictionary<Phone, FullContactInfo> individualContact = new Dictionary<Phone, FullContactInfo>();
-            var phone = new Phone
-            {
-                PhoneNumber = 1234567890
-            };
-            var contact = new FullContactInfo
+            // Arrange
+            Dictionary<Phone, FullContactInfo> multiContact = new Dictionary<Phone, FullContactInfo>();
+            var phoneJohn = new Phone { PhoneNumber = 1234567890 };
+            var contactJohnInfo = new FullContactInfo
             {
                 FullName = "John Doe",
                 Email = "john.doe@example.com",
-                PhoneNumber = phone.GetFormattedPhoneNumber()
+                PhoneNumber = phoneJohn.GetFormattedPhoneNumber()
             };
 
-            individualContact.Add(phone, contact);
+            var phoneIsaac = new Phone { PhoneNumber = 987654321 };
+            var contactIsaacInfo = new FullContactInfo
+            {
+                FullName = "Isaac Perez",
+                Email = "isaac.perez@example.com",
+                PhoneNumber = phoneIsaac.GetFormattedPhoneNumber()
+            };
+
+            multiContact.Add(phoneJohn, contactJohnInfo);
+            multiContact.Add(phoneIsaac, contactIsaacInfo);
+
+            // Act
+            var searchedContact1 = SearchByMethods.SearchByContactEmail("john.doe@example.com", multiContact);
+
+            // Assert
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(1, searchedContact1.Count);
+            var firstMatch = searchedContact1[0];
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(phoneJohn, firstMatch.Key);
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("John Doe", firstMatch.Value.FullName);
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("john.doe@example.com", firstMatch.Value.Email);
+
+            var searchedContact2 = SearchByMethods.SearchByContactEmail("isaac.perez@example.com", multiContact);
+
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(1, searchedContact2.Count);
+            var secondMatch = searchedContact2[0];
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(phoneIsaac, secondMatch.Key);
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("Isaac Perez", secondMatch.Value.FullName);
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual("isaac.perez@example.com", secondMatch.Value.Email);
         }
+
         [TestMethod]
-        public void SortContactNamesByAlphanumeric()
+        public void SortContactNamesByAlphabeticalOrder()
         {
-            Dictionary<Phone, FullContactInfo> individualContact = new Dictionary<Phone, FullContactInfo>();
-            var phone = new Phone
+            Dictionary<Phone, FullContactInfo> multiContact = new Dictionary<Phone, FullContactInfo>();
+            var phoneJohn = new Phone
             {
                 PhoneNumber = 1234567890
             };
-            var contact = new FullContactInfo
+            var contactJohn = new FullContactInfo
             {
                 FullName = "John Doe",
                 Email = "john.doe@example.com",
-                PhoneNumber = phone.GetFormattedPhoneNumber()
+                PhoneNumber = phoneJohn.GetFormattedPhoneNumber()
             };
 
-            individualContact.Add(phone, contact);
+            var phoneIsaac = new Phone { PhoneNumber = 987654321 };
+            var contactIsaacInfo = new FullContactInfo
+            {
+                FullName = "Isaac Perez",
+                Email = "isaac.perez@example.com",
+                PhoneNumber = phoneIsaac.GetFormattedPhoneNumber()
+            };
+
+            var phoneAsh = new Phone { PhoneNumber = 123123134 };
+            var contactAshInfo = new FullContactInfo
+            {
+                FullName = "Ash Harvey",
+                Email = "ash.harvey@example.com",
+                PhoneNumber = phoneAsh.GetFormattedPhoneNumber()
+            };
+
+
+            multiContact.Add(phoneJohn, contactJohn);
+            multiContact.Add(phoneIsaac, contactIsaacInfo);
+            multiContact.Add(phoneAsh, contactAshInfo);
+
+            var sortedContacts = SearchByMethods.SortContactBookByName(multiContact);
+
+            // Extract just the names from the sorted list to check if they are in alphabetical order
+            List<string> actualNames = new List<string>();
+            foreach (var contact in sortedContacts)
+            {
+                actualNames.Add(contact.Value.FullName);
+            }
+
+            // Expected sorted names
+            List<string> expectedNames = new List<string> { "Ash Harvey", "Isaac Perez", "John Doe" };
+
+            // Assert that the actual names match the expected sorted names
+            CollectionAssert.AreEqual(expectedNames, actualNames);
         }
 
-        //copilot extra tests
-        /*
-        VerifyUniqueContactNames
-        VerifyUniquePhoneNumbers
-        VerifyUniqueEmails
-        CheckContactCount
-        VerifyNameUpdateReflectsInAllReferences
-        VerifyPhoneNumberUpdateReflectsInAllReferences
-        VerifyEmailUpdateReflectsInAllReferences
-        VerifyErrorOnAddingInvalidContactData
-        VerifyErrorOnDuplicateContactAddition
-        SearchForNonExistentContact
-        VerifyAlphabeticalSortingCaseInsensitive
-        BackupAndRestoreContacts?
-         */
+        [TestMethod]
+        public void CheckContactCount()
+        {
+
+        }
+
+        [TestMethod]
+        public void VerifyNameUpdateReflectsInAllReferences()
+        {
+
+        }
+
+        [TestMethod]
+        public void VerifyPhoneNumberUpdateReflectsInAllReferences()
+        {
+
+        }
+
+        [TestMethod]
+        public void VerifyEmailUpdateReflectsInAllReferences()
+        {
+
+        }
+
+        [TestMethod]
+        public void SearchForNonExistentContact()
+        {
+
+        }
+
     }
 }
+
