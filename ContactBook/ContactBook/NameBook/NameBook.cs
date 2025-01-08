@@ -50,7 +50,60 @@ namespace NameBook
 
     public class SearchByMethods
     {
-       
+        public static List<KeyValuePair<Phone, FullContactInfo>> SearchByContactName(string valueVar, Dictionary<Phone, FullContactInfo> dictionaryVar)
+        {
+            // Create a list to store matching key-value pairs
+            var matchingContacts = new List<KeyValuePair<Phone, FullContactInfo>>();
+
+            // Iterate over all key-value pairs in the dictionary
+            foreach (var kvp in dictionaryVar)
+            {
+                // Check if the contact's full name matches the search value
+                if (kvp.Value.FullName.Contains(valueVar, StringComparison.OrdinalIgnoreCase))
+                {
+                    matchingContacts.Add(kvp);
+                }
+            }
+
+            // Return the list of matching key-value pairs
+            return matchingContacts;
+        }
+
+        public static List<KeyValuePair<Phone, FullContactInfo>> SearchByContactEmail(string valueVar, Dictionary<Phone, FullContactInfo> dictionaryVar)
+        {
+            // Create a list to store matching key-value pairs
+            var matchingContacts = new List<KeyValuePair<Phone, FullContactInfo>>();
+
+            // Iterate over all key-value pairs in the dictionary
+            foreach (var kvp in dictionaryVar)
+            {
+                // Check if the contact's full name matches the search value
+                if (kvp.Value.Email.Contains(valueVar))
+                {
+                    matchingContacts.Add(kvp);
+                }
+            }
+
+            // Return the list of matching key-value pairs
+            return matchingContacts;
+        }
+
+        public static List<KeyValuePair<Phone, FullContactInfo>> SortContactBookByName(Dictionary<Phone, FullContactInfo> dictionaryVar)
+        {
+            //method that takes a dictionary and puts only names in the list 
+            //this method should know that names are associated with the key
+            //the list should sort the list in alphabetical order
+            //if we prompt the user to select user from list should still give contact info for said contact
+            
+            // Create a list of key-value pairs from the dictionary
+            List<KeyValuePair<Phone, FullContactInfo>> sortedNameBook = new List<KeyValuePair<Phone, FullContactInfo>>(dictionaryVar);
+
+            // Sort the list alphabetically by the FullName property of the FullContactInfo
+            sortedNameBook.Sort((x, y) => x.Value.FullName.CompareTo(y.Value.FullName));
+
+            return sortedNameBook;
+
+        }
     }
 
 }
