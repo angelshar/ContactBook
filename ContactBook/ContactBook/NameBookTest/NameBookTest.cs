@@ -593,5 +593,133 @@ namespace NameBookTest
         }
 
     }
+    [TestClass]
+    public sealed class EmailValidatorTest
+    {
+        private EmailValidator emailValidator;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            emailValidator = new EmailValidator();
+        }
+
+        [TestMethod]
+        public void IsValidEmail_ValidEmail_ReturnsTrue()
+        {
+            // Arrange
+            string validEmail = "john.doe@example.com";
+
+            // Act
+            bool result = emailValidator.IsValidEmail(validEmail);
+
+            // Assert
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void IsValidEmail_InvalidEmail_ReturnsFalse()
+        {
+            // Arrange
+            string invalidEmail = "john.doeexample.com";
+
+            // Act
+            bool result = emailValidator.IsValidEmail(invalidEmail);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void IsValidEmail_EmptyString_ReturnsFalse()
+        {
+            // Arrange
+            string emptyEmail = "";
+
+            // Act
+            bool result = emailValidator.IsValidEmail(emptyEmail);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void IsValidEmail_NullString_ReturnsFalse()
+        {
+            // Arrange
+            string nullEmail = null;
+
+            // Act
+            bool result = emailValidator.IsValidEmail(nullEmail);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void IsValidEmail_WhitespaceString_ReturnsFalse()
+        {
+            // Arrange
+            string whitespaceEmail = "   ";
+
+            // Act
+            bool result = emailValidator.IsValidEmail(whitespaceEmail);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void IsValidEmail_EmailWithSpaces_ReturnsFalse()
+        {
+            // Arrange
+            string emailWithSpaces = "john.doe @example.com";
+
+            // Act
+            bool result = emailValidator.IsValidEmail(emailWithSpaces);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void IsValidEmail_EmailWithoutDomain_ReturnsFalse()
+        {
+            // Arrange
+            string emailWithoutDomain = "john.doe@";
+
+            // Act
+            bool result = emailValidator.IsValidEmail(emailWithoutDomain);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void IsValidEmail_EmailWithoutAtSymbol_ReturnsFalse()
+        {
+            // Arrange
+            string emailWithoutAtSymbol = "john.doeexample.com";
+
+            // Act
+            bool result = emailValidator.IsValidEmail(emailWithoutAtSymbol);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+
+        [TestMethod]
+        public void IsValidEmail_EmailWithMultipleAtSymbols_ReturnsFalse()
+        {
+            // Arrange
+            string emailWithMultipleAtSymbols = "john@doe@example.com";
+
+            // Act
+            bool result = emailValidator.IsValidEmail(emailWithMultipleAtSymbols);
+
+            // Assert
+            Assert.IsFalse(result);
+        }
+    }
 }
 
