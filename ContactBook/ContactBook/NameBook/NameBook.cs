@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace NameBook
 {
@@ -94,7 +93,7 @@ namespace NameBook
             //this method should know that names are associated with the key
             //the list should sort the list in alphabetical order
             //if we prompt the user to select user from list should still give contact info for said contact
-            
+
             // Create a list of key-value pairs from the dictionary
             List<KeyValuePair<Phone, FullContactInfo>> sortedNameBook = new List<KeyValuePair<Phone, FullContactInfo>>(dictionaryVar);
 
