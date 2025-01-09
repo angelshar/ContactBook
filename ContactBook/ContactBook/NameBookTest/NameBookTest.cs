@@ -1,4 +1,5 @@
 ﻿using NameBook;
+using System.Numerics;
 using System.Reflection.PortableExecutable;
 
 namespace NameBookTest
@@ -480,31 +481,70 @@ namespace NameBookTest
         [TestMethod]
         public void CheckContactCount()
         {
+            Dictionary<Phone, FullContactInfo> multiContact = new Dictionary<Phone, FullContactInfo>();
+            var phoneJohn = new Phone
+            {
+                PhoneNumber = 1234567890
+            };
+            var contactJohn = new FullContactInfo
+            {
+                FullName = "John Doe",
+                Email = "john.doe@example.com",
+                PhoneNumber = phoneJohn.GetFormattedPhoneNumber()
+            };
 
-        }
+            var phoneIsaac = new Phone { PhoneNumber = 987654321 };
+            var contactIsaacInfo = new FullContactInfo
+            {
+                FullName = "Isaac Perez",
+                Email = "isaac.perez@example.com",
+                PhoneNumber = phoneIsaac.GetFormattedPhoneNumber()
+            };
 
-        [TestMethod]
-        public void VerifyNameUpdateReflectsInAllReferences()
-        {
+            var phoneAsh = new Phone { PhoneNumber = 123123134 };
+            var contactAshInfo = new FullContactInfo
+            {
+                FullName = "Ash Harvey",
+                Email = "ash.harvey@example.com",
+                PhoneNumber = phoneAsh.GetFormattedPhoneNumber()
+            };
 
-        }
+            var phoneBob = new Phone { PhoneNumber = 571281908 };
+            var contactBobInfo = new FullContactInfo
+            {
+                FullName = "Bob Doe",
+                Email = "bob.doe@example.com",
+                PhoneNumber = phoneBob.GetFormattedPhoneNumber()
+            };
 
-        [TestMethod]
-        public void VerifyPhoneNumberUpdateReflectsInAllReferences()
-        {
+            multiContact.Add(phoneJohn, contactJohn);
+            multiContact.Add(phoneIsaac, contactIsaacInfo);
+            multiContact.Add(phoneAsh, contactAshInfo);
+            multiContact.Add(phoneBob, contactBobInfo);
 
-        }
-
-        [TestMethod]
-        public void VerifyEmailUpdateReflectsInAllReferences()
-        {
-
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(4, multiContact.Count);
         }
 
         [TestMethod]
         public void SearchForNonExistentContact()
         {
+            // Arrange
+            Dictionary<Phone, FullContactInfo> multiContact = new Dictionary<Phone, FullContactInfo>();
+            var phoneJohn = new Phone { PhoneNumber = 1234567890 };
+            var contactJohnInfo = new FullContactInfo
+            {
+                FullName = "John Doe",
+                Email = "john.doe@example.com",
+                PhoneNumber = phoneJohn.GetFormattedPhoneNumber()
+            };
 
+            multiContact.Add(phoneJohn, contactJohnInfo);
+
+            // Act
+            var searchedContact1 = SearchByMethods.SearchByContactName("Isaac", multiContact);
+
+            // Assert
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(0, searchedContact1.Count);
         }
 
     }
