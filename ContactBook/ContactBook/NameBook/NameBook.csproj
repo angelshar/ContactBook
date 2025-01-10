@@ -1,15 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	<PackageIcon>Assets\icon.png</PackageIcon>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PackageIcon>Assets/icon.png</PackageIcon>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>ContactBookDictionary</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Angelshar, iperez57</Authors>
+		<Description>Contact Book using dictionaries for contact information.</Description>
+		<OutputPath>./nupkg</OutputPath>
+		<Title>ContactBook</Title>
+		<PackageProjectUrl>https://github.com/angelshar/ContactBook</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/angelshar/ContactBook</RepositoryUrl>
+		<PackageTags>Contact Book; Phone Book</PackageTags>
+		<PackageReleaseNotes>Version 1.0.0</PackageReleaseNotes>
+		<PackageOutputPath>./nupkg\</PackageOutputPath>
+		<!-- Ensure the output path is set -->
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Collections" Version="4.3.0" />
-    <PackageReference Include="xunit" Version="2.9.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="System.Collections" Version="4.3.0" />
+		<PackageReference Include="xunit" Version="2.9.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Assets/icon.png">
+			<Pack>True</Pack>
+			<PackagePath>icon.png</PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>
+
+

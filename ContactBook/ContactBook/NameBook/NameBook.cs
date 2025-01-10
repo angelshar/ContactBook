@@ -32,9 +32,9 @@ namespace NameBook
         //the elements we want the contact to have
         //the phone number will also be listed as a string
         //default elements to null if not in use?
-        public string FullName { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
+        public string? FullName { get; set; }
+        public string? Email { get; set; }
+        public string? PhoneNumber { get; set; }
     }
     public class Phone
     {
@@ -58,7 +58,7 @@ namespace NameBook
             foreach (var kvp in dictionaryVar)
             {
                 // Check if the contact's full name matches the search value
-                if (kvp.Value.FullName.Contains(valueVar, StringComparison.OrdinalIgnoreCase))
+                if (kvp.Value.FullName!.Contains(valueVar, StringComparison.OrdinalIgnoreCase))
                 {
                     matchingContacts.Add(kvp);
                 }
@@ -77,7 +77,7 @@ namespace NameBook
             foreach (var kvp in dictionaryVar)
             {
                 // Check if the contact's full name matches the search value
-                if (kvp.Value.Email.Contains(valueVar))
+                if (kvp.Value.Email!.Contains(valueVar))
                 {
                     matchingContacts.Add(kvp);
                 }
@@ -98,7 +98,7 @@ namespace NameBook
             List<KeyValuePair<Phone, FullContactInfo>> sortedNameBook = new List<KeyValuePair<Phone, FullContactInfo>>(dictionaryVar);
 
             // Sort the list alphabetically by the FullName property of the FullContactInfo
-            sortedNameBook.Sort((x, y) => x.Value.FullName.CompareTo(y.Value.FullName));
+            sortedNameBook.Sort((x, y) => x.Value.FullName!.CompareTo(y.Value.FullName));
 
             return sortedNameBook;
 

@@ -12,8 +12,19 @@
     <Authors>Angelshar, iperez57</Authors>
     <Description>Contact Book made using dictionaries. The key is the phone number and the values are a list of contact information.</Description>
     <PackageProjectUrl>https://github.com/angelshar/ContactBook</PackageProjectUrl>
-    <PackageIcon>NuGet package icon for a contact phone book.png</PackageIcon>
+    <PackageIcon>icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/angelshar/ContactBook</RepositoryUrl>
+    <PackageTags>Phonebook; contactbook</PackageTags>
+    <PackageReleaseNotes>Version 1</PackageReleaseNotes>
+    <Copyright>Copyright (c) Angelshar, iperez57 2024</Copyright>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\NameBook\Assets\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />

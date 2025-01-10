@@ -478,7 +478,7 @@ namespace NameBookTest
             List<string> actualNames = new List<string>();
             foreach (var contact in sortedContacts)
             {
-                actualNames.Add(contact.Value.FullName);
+                actualNames.Add(contact.Value.FullName!);
             }
 
             // Expected sorted names
@@ -596,7 +596,7 @@ namespace NameBookTest
     [TestClass]
     public sealed class EmailValidatorTest
     {
-        private EmailValidator emailValidator;
+        private EmailValidator? emailValidator;
 
         [TestInitialize]
         public void Setup()
@@ -611,7 +611,7 @@ namespace NameBookTest
             string validEmail = "john.doe@example.com";
 
             // Act
-            bool result = emailValidator.IsValidEmail(validEmail);
+            bool result = emailValidator!.IsValidEmail(validEmail);
 
             // Assert
             Assert.IsTrue(result);
@@ -624,7 +624,7 @@ namespace NameBookTest
             string invalidEmail = "john.doeexample.com";
 
             // Act
-            bool result = emailValidator.IsValidEmail(invalidEmail);
+            bool result = emailValidator!.IsValidEmail(invalidEmail);
 
             // Assert
             Assert.IsFalse(result);
@@ -637,7 +637,7 @@ namespace NameBookTest
             string emptyEmail = "";
 
             // Act
-            bool result = emailValidator.IsValidEmail(emptyEmail);
+            bool result = emailValidator!.IsValidEmail(emptyEmail);
 
             // Assert
             Assert.IsFalse(result);
@@ -647,10 +647,10 @@ namespace NameBookTest
         public void IsValidEmail_NullString_ReturnsFalse()
         {
             // Arrange
-            string nullEmail = null;
+            string nullEmail = null!;
 
             // Act
-            bool result = emailValidator.IsValidEmail(nullEmail);
+            bool result = emailValidator!.IsValidEmail(nullEmail);
 
             // Assert
             Assert.IsFalse(result);
@@ -663,7 +663,7 @@ namespace NameBookTest
             string whitespaceEmail = "   ";
 
             // Act
-            bool result = emailValidator.IsValidEmail(whitespaceEmail);
+            bool result = emailValidator!.IsValidEmail(whitespaceEmail);
 
             // Assert
             Assert.IsFalse(result);
@@ -676,7 +676,7 @@ namespace NameBookTest
             string emailWithSpaces = "john.doe @example.com";
 
             // Act
-            bool result = emailValidator.IsValidEmail(emailWithSpaces);
+            bool result = emailValidator!.IsValidEmail(emailWithSpaces);
 
             // Assert
             Assert.IsFalse(result);
@@ -689,7 +689,7 @@ namespace NameBookTest
             string emailWithoutDomain = "john.doe@";
 
             // Act
-            bool result = emailValidator.IsValidEmail(emailWithoutDomain);
+            bool result = emailValidator!.IsValidEmail(emailWithoutDomain);
 
             // Assert
             Assert.IsFalse(result);
@@ -702,7 +702,7 @@ namespace NameBookTest
             string emailWithoutAtSymbol = "john.doeexample.com";
 
             // Act
-            bool result = emailValidator.IsValidEmail(emailWithoutAtSymbol);
+            bool result = emailValidator!.IsValidEmail(emailWithoutAtSymbol);
 
             // Assert
             Assert.IsFalse(result);
@@ -715,7 +715,7 @@ namespace NameBookTest
             string emailWithMultipleAtSymbols = "john@doe@example.com";
 
             // Act
-            bool result = emailValidator.IsValidEmail(emailWithMultipleAtSymbols);
+            bool result = emailValidator!.IsValidEmail(emailWithMultipleAtSymbols);
 
             // Assert
             Assert.IsFalse(result);
