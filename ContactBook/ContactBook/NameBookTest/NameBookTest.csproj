@@ -5,6 +5,14 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>ContactBook</PackageId>
+    <Title>ContactBookDictionary</Title>
+    <Version>1.0.0</Version>
+    <Authors>Angelshar, iperez57</Authors>
+    <Description>Contact Book made using dictionaries. The key is the phone number and the values are a list of contact information.</Description>
+    <PackageProjectUrl>https://github.com/angelshar/ContactBook</PackageProjectUrl>
+    <PackageIcon>NuGet package icon for a contact phone book.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
