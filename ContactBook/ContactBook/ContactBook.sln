@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NameBook", "NameBook\NameBook.csproj", "{485C2F2F-CCF9-4924-9C5A-D435F3E117D8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NameBookTest", "NameBookTest\NameBookTest.csproj", "{07F83AA7-699A-46C7-AAC3-5C0C9C5467C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactBook", "ContactBook\ContactBook.csproj", "{C2FF5EBA-DD2B-40C5-B3CB-05D4DAD89884}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{07F83AA7-699A-46C7-AAC3-5C0C9C5467C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07F83AA7-699A-46C7-AAC3-5C0C9C5467C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07F83AA7-699A-46C7-AAC3-5C0C9C5467C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2FF5EBA-DD2B-40C5-B3CB-05D4DAD89884}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2FF5EBA-DD2B-40C5-B3CB-05D4DAD89884}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2FF5EBA-DD2B-40C5-B3CB-05D4DAD89884}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2FF5EBA-DD2B-40C5-B3CB-05D4DAD89884}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

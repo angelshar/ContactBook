@@ -38,13 +38,16 @@ namespace NameBook
     }
     public class Phone
     {
-        public int PhoneNumber { get; set; }
+        public double PhoneNumber { get; set; }
 
         public string GetFormattedPhoneNumber()
         {
+            // Cast PhoneNumber to long to avoid decimal points
+            long phoneNumber = (long)PhoneNumber;
             // Format the phone number as "123-456-7890"
-            return $"{PhoneNumber / 10000000:D3}-{(PhoneNumber / 10000) % 1000:D3}-{PhoneNumber % 10000:D4}";
+            return $"{phoneNumber / 10000000:D3}-{(phoneNumber / 10000) % 1000:D3}-{phoneNumber % 10000:D4}";
         }
+
     }
 
     public class SearchByMethods
